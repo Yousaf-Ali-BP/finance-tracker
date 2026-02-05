@@ -2,15 +2,13 @@ import {UserEntity} from "../../domain/entities/UserEntity.js";
 import type {UserRepository} from "../../domain/repositories/UserRepository.js";
 
 interface RegisterInput {
-    id: string;
     name: string;
     email: string;
     password: string;
 }
 
 export class RegisterUser {
-    constructor(private readonly userRepository: UserRepository) {
-    }
+    constructor(private readonly userRepository: UserRepository) {}
 
     async execute (input :RegisterInput) : Promise<void> {
         const existingUser =await this.userRepository.findByEmail(input.email);
@@ -20,7 +18,6 @@ export class RegisterUser {
         }
 
         const User =new UserEntity({
-            id:input.id,
             name:input.name,
             email:input.email,
             password:input.password,

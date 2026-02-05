@@ -26,7 +26,11 @@ export class LoginUser{
             throw new Error("Invalid credentials");
         }
 
-        const token = this.tokenService.gnerageToken(user.id);
+        const userId = user._id;
+        if (!userId) {
+            throw new Error("User id is missing");
+        }
+        const token = this.tokenService.generateToken(userId);
 
         return {token}
 

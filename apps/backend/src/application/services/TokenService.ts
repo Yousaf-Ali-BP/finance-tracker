@@ -1,3 +1,3 @@
 export interface TokenService {
-    gnerageToken(userId: string): string
+    generateToken(userId: string): string
 }

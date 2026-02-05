@@ -1,5 +1,5 @@
 export interface UserProps {
-    id: string;
+    _id?: string;
     name: string;
     email: string;
     password: string;
@@ -16,8 +16,8 @@ export class UserEntity {
         this.props = props;
     }
 
-    get id(){
-        return this.props.id;
+    get _id(){
+        return this.props._id;
     }
     get name(){
         return this.props.name;

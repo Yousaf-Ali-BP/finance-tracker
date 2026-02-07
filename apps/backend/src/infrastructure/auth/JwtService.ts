@@ -19,8 +19,22 @@ export class JwtService  implements TokenService {
                 expiresIn:'1h',
                 algorithm: 'HS256',
             });
-        }catch(err) {
+        }catch{
             throw new Error("Failed to generate token");
+        }
+    }
+
+    verify(token:string):{sub:string}{
+        const secret = process.env.JWT_SECRET;
+
+        if (!secret) {
+            throw new Error("Missing JWT_SECRET");
+        }
+
+        try {
+            return jwt.verify(token,secret) as {sub:string};
+        }catch {
+            throw new Error('Invalid or expired token');
         }
     }
 }

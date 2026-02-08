@@ -14,8 +14,8 @@ export class AuthController {
     }
 
     async login(req: Request, res: Response) {
-        await this.loginUser.execute(req.body);
-        return res.status(200).json({message:'User login successfully'});
+        const result=await this.loginUser.execute(req.body);
+        return res.status(200).json(result);
     }
 }
 

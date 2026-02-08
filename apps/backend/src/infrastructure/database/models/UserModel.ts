@@ -1,6 +1,6 @@
-import mongoose ,{Schema,Document} from "mongoose";
+import mongoose, {Schema, Document} from "mongoose";
 
-export interface UserDocument extends Document{
+export interface UserDocument extends Document {
     name: string;
     email: string;
     password: string;
@@ -8,23 +8,23 @@ export interface UserDocument extends Document{
 }
 
 const UserSchema = new Schema<UserDocument>({
-    name:{
+    name: {
         type: String,
         required: true,
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true,
     },
-    password:{
+    password: {
         type: String,
         required: true,
     },
-    createdAt:{
+    createdAt: {
         type: Date,
         default: Date.now,
     }
 })
 
-export const UserModel=mongoose.model<UserDocument>('User',UserSchema)
+export const UserModel = mongoose.model<UserDocument>('User', UserSchema)

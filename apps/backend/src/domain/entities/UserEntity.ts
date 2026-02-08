@@ -10,26 +10,29 @@ export class UserEntity {
     private readonly props: UserProps;
 
     constructor(props: UserProps) {
-        if(!props.email){
+        if (!props.email) {
             throw new Error("User email is required");
         }
         this.props = props;
     }
 
-    get _id(){
+    get _id() {
         return this.props._id;
     }
-    get name(){
+
+    get name() {
         return this.props.name;
     }
-    get email(){
+
+    get email() {
         return this.props.email;
     }
-    get password(){
+
+    get password() {
         return this.props.password;
     }
-    get createdAt(){
+
+    get createdAt() {
         return this.props.createdAt.toISOString();
     }
 }
-

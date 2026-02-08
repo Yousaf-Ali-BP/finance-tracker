@@ -1,6 +1,7 @@
 import express from "express";
 
 import {MongoUserRepository} from "./infrastructure/repositories/MongoUserRepository.js";
+import {BcryptPasswordHasher} from "./infrastructure/auth/BcryptPasswordHasher.js";
 import {JwtService} from "./infrastructure/auth/JwtService.js";
 import {LoginUser} from "./application/use-cases/LoginUser.js";
 import {RegisterUser} from "./application/use-cases/RegisterUser.js";
@@ -18,10 +19,11 @@ app.get("/health", (_req, res) => {
 //User Authentication
 const userRepo= new MongoUserRepository();
 const jwtService = new JwtService();
+const passwordHasher=new BcryptPasswordHasher()
 
-const loginUser = new LoginUser(userRepo, jwtService);
-const registerUser = new RegisterUser(userRepo);
+const loginUser = new LoginUser(userRepo, jwtService,passwordHasher);
+const registerUser = new RegisterUser(userRepo,passwordHasher);
 
 const authController = new AuthController(loginUser, registerUser);
 
-app.use("api/auth",authRoutes(authController));
+app.use("/api/auth",authRoutes(authController));

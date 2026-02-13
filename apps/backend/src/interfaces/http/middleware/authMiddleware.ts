@@ -1,5 +1,6 @@
 import type {Request, Response, NextFunction} from 'express';
-import {JwtService} from "../../../infrastructure/auth/JwtService.js";
+import {JwtService} from "@/infrastructure/auth/JwtService.js";
+import {UnauthorizedError} from "@/application/errors/index.js";
 
 export const authMiddleware =
     (JwtService: JwtService) =>
@@ -7,22 +8,21 @@ export const authMiddleware =
             const authHeader = req.headers.authorization;
 
             if (!authHeader) {
-                return res.status(401).json({message: 'Unauthorized'});
+                throw new UnauthorizedError();
             }
 
             const token = authHeader.split(' ')[1];
 
             if (!token) {
-                return res.status(401).json({ message: 'No token provided' });
+                throw new UnauthorizedError();
             }
 
             try{
                 req.user =JwtService.verify(token)
                 return next()
-            }catch {
-                return res.status(401).json({message: 'Invalid token'});
+            }catch (err){
+                return next(err);
             }
         }
-
 
 

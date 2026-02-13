@@ -1,6 +1,6 @@
 import type {Request, Response} from "express";
-import {LoginUser} from "../../../application/use-cases/LoginUser.js";
-import {RegisterUser} from "../../../application/use-cases/RegisterUser.js";
+import {LoginUser} from "@/application/use-cases/LoginUser.js";
+import {RegisterUser} from "@/application/use-cases/RegisterUser.js";
 
 export class AuthController {
     constructor(
@@ -18,5 +18,4 @@ export class AuthController {
         return res.status(200).json(result);
     }
 }
-
 

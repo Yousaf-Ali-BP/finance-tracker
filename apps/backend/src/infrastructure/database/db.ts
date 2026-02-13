@@ -1,11 +1,18 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
+import {DatabaseConnectionError, InternalServerError} from '@/application/errors/index.js';
 
 export const connectDB = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URL as string)
-        console.log('MongoDB Connected')
-    } catch (err) {
-        console.log('MongoDB Connection Failed ,', err)
-        process.exit(1)
+    const mongoUrl = process.env.MONGO_URL;
+
+    if (!mongoUrl) {
+        throw new InternalServerError();
     }
-}
+
+    try {
+        await mongoose.connect(mongoUrl);
+        console.log('MongoDB Connected');
+    } catch (err) {
+        console.error('MongoDB connection failed:', err);
+        throw new DatabaseConnectionError();
+    }
+};

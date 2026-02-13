@@ -1,6 +1,6 @@
-import type {UserRepository} from "../../domain/repositories/UserRepository.js";
-import {UserEntity} from "../../domain/entities/UserEntity.js";
-import {UserModel} from "../database/models/UserModel.js";
+import type {UserRepository} from "@/domain/repositories/UserRepository.js";
+import {UserEntity} from "@/domain/entities/UserEntity.js";
+import {UserModel} from "@/infrastructure/database/models/UserModel.js";
 
 export class MongoUserRepository implements UserRepository {
 

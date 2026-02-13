@@ -1,3 +1,5 @@
+import {MissingRequiredFieldError} from '@/application/errors/index.js'
+
 export interface UserProps {
     _id?: string;
     name: string;
@@ -11,7 +13,7 @@ export class UserEntity {
 
     constructor(props: UserProps) {
         if (!props.email) {
-            throw new Error("User email is required");
+            throw new MissingRequiredFieldError()
         }
         this.props = props;
     }

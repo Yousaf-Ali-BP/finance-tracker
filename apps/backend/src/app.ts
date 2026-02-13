@@ -1,12 +1,13 @@
 import express from "express";
 
-import {MongoUserRepository} from "./infrastructure/repositories/MongoUserRepository.js";
-import {BcryptPasswordHasher} from "./infrastructure/auth/BcryptPasswordHasher.js";
-import {JwtService} from "./infrastructure/auth/JwtService.js";
-import {LoginUser} from "./application/use-cases/LoginUser.js";
-import {RegisterUser} from "./application/use-cases/RegisterUser.js";
-import {AuthController} from "./interfaces/http/controllers/AuthController.js";
-import {authRoutes} from "./interfaces/http/routes/auth.routes.js";
+import {MongoUserRepository} from "@/infrastructure/repositories/MongoUserRepository.js";
+import {BcryptPasswordHasher} from "@/infrastructure/auth/BcryptPasswordHasher.js";
+import {JwtService} from "@/infrastructure/auth/JwtService.js";
+import {LoginUser} from "@/application/use-cases/LoginUser.js";
+import {RegisterUser} from "@/application/use-cases/RegisterUser.js";
+import {AuthController} from "@/interfaces/http/controllers/AuthController.js";
+import {authRoutes} from "@/interfaces/http/routes/auth.routes.js";
+import {errorHandler} from "@/interfaces/http/middleware/errorHandler.js";
 
 export const app = express();
 
@@ -27,3 +28,4 @@ const registerUser = new RegisterUser(userRepo,passwordHasher);
 const authController = new AuthController(loginUser, registerUser);
 
 app.use("/api/auth",authRoutes(authController));
+app.use(errorHandler);

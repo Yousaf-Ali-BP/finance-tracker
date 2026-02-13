@@ -1,8 +1,9 @@
-import type {UserRepository} from "../../domain/repositories/UserRepository.js";
-import type {TokenService} from "../services/TokenService.js";
-import type {PasswordHasher} from "../services/PasswordHasher.js";
-import type {LoginRequestDTO} from "../dtos/LoginRequestDTO.js";
-import type {LoginResponseDTO} from "../dtos/LoginResponseDTO.js";
+import type {UserRepository} from "@/domain/repositories/UserRepository.js";
+import type {TokenService} from "@/application/services/TokenService.js";
+import type {PasswordHasher} from "@/application/services/PasswordHasher.js";
+import type {LoginRequestDTO} from "@/application/DTO/LoginRequestDTO.js";
+import type {LoginResponseDTO} from "@/application/DTO/LoginResponseDTO.js";
+import {InvalidCredentialsError , MissingRequiredFieldError} from "@/application/errors/index.js";
 
 export class LoginUser {
     constructor(
@@ -15,19 +16,19 @@ export class LoginUser {
         const user = await this.userRepository.findByEmail(input.email);
 
         if (!user) {
-            throw new Error("Invalid credentials");
+            throw new InvalidCredentialsError();
         }
 
         // Password comparison will be delegated later
         const isPasswordValid = await this.passwordHasher.compare(input.password, user.password);
 
         if (!isPasswordValid) {
-            throw new Error("Invalid credentials");
+            throw new InvalidCredentialsError();
         }
 
         const userId = user._id;
         if (!userId) {
-            throw new Error("User id is missing");
+            throw new MissingRequiredFieldError()
         }
         const token = this.tokenService.generateToken(userId);
 

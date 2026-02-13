@@ -1,7 +1,8 @@
-import {UserEntity} from "../../domain/entities/UserEntity.js";
-import type {UserRepository} from "../../domain/repositories/UserRepository.js";
-import type {PasswordHasher} from "../services/PasswordHasher.js";
-import type {RegisterRequestDTO} from "../dtos/RegisterRequestDTO.js";
+import {UserEntity} from "@/domain/entities/UserEntity.js";
+import type {UserRepository} from "@/domain/repositories/UserRepository.js";
+import type {PasswordHasher} from "@/application/services/PasswordHasher.js";
+import type {RegisterRequestDTO} from "@/application/DTO/RegisterRequestDTO.js";
+import {UserAlreadyExistsError} from '@/application/errors/index.js'
 
 export class RegisterUser {
     constructor(
@@ -13,7 +14,7 @@ export class RegisterUser {
         const existingUser = await this.userRepository.findByEmail(input.email);
 
         if (existingUser) {
-            throw new Error("User already exists");
+            throw new UserAlreadyExistsError()
         }
 
         const passwordHash = await this.passwordHasher.hash(input.password);

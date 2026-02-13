@@ -1,26 +1,27 @@
 import jwt from 'jsonwebtoken';
-import type {TokenService} from "../../application/services/TokenService.js";
+import type {TokenService} from '@/application/services/TokenService.js';
+import {InternalServerError, InvalidTokenError, TokenExpiredError,} from '@/application/errors/index.js';
 
 export class JwtService implements TokenService {
     generateToken(userId: string): string {
         const secret = process.env.JWT_SECRET;
 
         if (!secret) {
-            throw new Error("Missing JWT_SECRET");
+            throw new InternalServerError();
         }
 
         try {
             const payload = {
                 sub: userId,
                 iat: Math.floor(Date.now() / 1000),
-            }
+            };
 
             return jwt.sign(payload, secret, {
                 expiresIn: '1h',
                 algorithm: 'HS256',
             });
         } catch {
-            throw new Error("Failed to generate token");
+            throw new InternalServerError();
         }
     }
 
@@ -28,13 +29,21 @@ export class JwtService implements TokenService {
         const secret = process.env.JWT_SECRET;
 
         if (!secret) {
-            throw new Error("Missing JWT_SECRET");
+            throw new InternalServerError();
         }
 
         try {
             return jwt.verify(token, secret) as { sub: string };
-        } catch {
-            throw new Error('Invalid or expired token');
+        } catch (error) {
+            if (error instanceof Error && error.name === 'TokenExpiredError') {
+                throw new TokenExpiredError();
+            }
+
+            if (error instanceof Error && (error.name === 'JsonWebTokenError' || error.name === 'NotBeforeError')) {
+                throw new InvalidTokenError();
+            }
+
+            throw new InternalServerError();
         }
     }
 }

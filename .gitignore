@@ -27,5 +27,10 @@ build/
 coverage/
 *.tsbuildinfo
 
+## Quality Tools
+.qodana/
+qodana.sarif.json
+
 ## Misc
 *.local
+*.pid

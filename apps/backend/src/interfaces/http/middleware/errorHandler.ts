@@ -7,7 +7,7 @@ export function errorHandler (err:unknown, req: Request, res: Response, next: Ne
         return res.status(err.statusCode).json({
             success: false,
             error: {
-                code: err.statusCode,
+                code: err.code,
                 message: err.message,
             }
         })

@@ -8,6 +8,7 @@ import {RegisterUser} from "@/application/use-cases/RegisterUser.js";
 import {AuthController} from "@/interfaces/http/controllers/AuthController.js";
 import {authRoutes} from "@/interfaces/http/routes/auth.routes.js";
 import {errorHandler} from "@/interfaces/http/middleware/errorHandler.js";
+import {GetCurrentUser} from "@/application/use-cases/GetCurrentUser.js";
 
 export const app = express();
 
@@ -24,8 +25,9 @@ const passwordHasher=new BcryptPasswordHasher()
 
 const loginUser = new LoginUser(userRepo, jwtService,passwordHasher);
 const registerUser = new RegisterUser(userRepo,passwordHasher);
+const getCurrentUser = new GetCurrentUser(userRepo)
 
-const authController = new AuthController(loginUser, registerUser);
+const authController = new AuthController(loginUser, registerUser,getCurrentUser);
 
-app.use("/api/auth",authRoutes(authController));
+app.use("/api/auth",authRoutes(authController, jwtService));
 app.use(errorHandler);

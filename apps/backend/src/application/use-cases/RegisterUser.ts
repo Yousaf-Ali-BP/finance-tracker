@@ -2,6 +2,7 @@ import { UserEntity } from "@/domain/entities/UserEntity.js";
 import type { UserRepository } from "@/domain/repositories/UserRepository.js";
 import type { PasswordHasher } from "@/application/services/PasswordHasher.js";
 import type { RegisterRequestDTO } from "@/application/DTO/RegisterRequestDTO.js";
+import type { RegisterResponseDTO } from "@/application/DTO/RegisterResponseDTO.js";
 import { UserAlreadyExistsError } from "@/application/errors/index.js";
 
 export class RegisterUser {
@@ -10,7 +11,7 @@ export class RegisterUser {
     private readonly passwordHasher: PasswordHasher,
   ) {}
 
-  async execute(input: RegisterRequestDTO): Promise<void> {
+  async execute(input: RegisterRequestDTO): Promise<RegisterResponseDTO> {
     const existingUser = await this.userRepository.findByEmail(input.email);
 
     if (existingUser) {
@@ -27,5 +28,6 @@ export class RegisterUser {
     });
 
     await this.userRepository.save(User);
+    return { message: "User registered successfully" };
   }
 }

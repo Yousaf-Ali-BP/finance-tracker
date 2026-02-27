@@ -7,8 +7,8 @@ export class InternalServerError extends AppError {
 }
 
 export class ResourceNotFoundError extends AppError {
-    constructor() {
-        super('RESOURCE_NOT_FOUND','Resource Not Found',404);
+    constructor(code:string='RESOURCE_NOT_FOUND',message:string='Resource Not Found') {
+        super(code,message,404);
     }
 }
 

@@ -1,7 +1,7 @@
 import {MissingRequiredFieldError} from '@/application/errors/index.js'
 
 export interface UserProps {
-    _id?: string;
+    id?: string;
     name: string;
     email: string;
     password: string;
@@ -18,8 +18,8 @@ export class UserEntity {
         this.props = props;
     }
 
-    get _id() {
-        return this.props._id;
+    get id() {
+        return this.props.id;
     }
 
     get name() {
@@ -35,6 +35,6 @@ export class UserEntity {
     }
 
     get createdAt() {
-        return this.props.createdAt.toISOString();
+        return this.props.createdAt;
     }
 }

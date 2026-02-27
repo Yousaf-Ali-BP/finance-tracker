@@ -31,7 +31,7 @@ export class LoginUser {
       throw new InvalidCredentialsError();
     }
 
-    const userId = user._id;
+    const userId = user.id;
     if (!userId) {
       throw new MissingRequiredFieldError();
     }

@@ -8,7 +8,7 @@ export interface UserProps {
     createdAt: Date;
 }
 
-export class UserEntity {
+export class User {
     private readonly props: UserProps;
 
     constructor(props: UserProps) {

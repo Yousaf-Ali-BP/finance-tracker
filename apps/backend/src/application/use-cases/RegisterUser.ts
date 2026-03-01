@@ -1,4 +1,4 @@
-import { UserEntity } from "@/domain/entities/UserEntity.js";
+import {User} from "@/domain/entities/User.js";
 import type { UserRepository } from "@/domain/repositories/UserRepository.js";
 import type { PasswordHasher } from "@/application/services/PasswordHasher.js";
 import type { RegisterRequestDTO } from "@/application/DTO/RegisterRequestDTO.js";
@@ -20,14 +20,14 @@ export class RegisterUser {
 
     const passwordHash = await this.passwordHasher.hash(input.password);
 
-    const User = new UserEntity({
+    const user = new User({
       name: input.name,
       email: input.email,
       password: passwordHash,
       createdAt: new Date(),
     });
 
-    await this.userRepository.save(User);
+    await this.userRepository.save(user);
     return { message: "User registered successfully" };
   }
 }

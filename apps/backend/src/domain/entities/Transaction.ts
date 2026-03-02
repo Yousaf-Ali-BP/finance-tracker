@@ -1,4 +1,5 @@
-export type TransactionType = "income" | "expense" | "transfer";
+export const TRANSACTION_TYPES = ["income", "expense", "transfer"] as const;
+export type TransactionType = typeof TRANSACTION_TYPES[number];
 
 export interface TransactionProps {
     id?: string;

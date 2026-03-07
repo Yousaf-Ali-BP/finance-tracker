@@ -6,7 +6,6 @@ import {Transaction} from "@/domain/entities/Transaction.js";
 export class TransactionMapper {
     static toDomain(doc: TransactionDocument): Transaction {
 
-
         const baseProps: TransactionProps = {
             id: doc._id.toString(),
             userId: doc.userId.toString(),
@@ -53,7 +52,7 @@ export class TransactionMapper {
             type: transaction.type,
             amount: transaction.amount,
             date: transaction.date,
-            createdAt: transaction.createdAt,
+            createdAt: new Date(),
         }
 
         if (transaction.description !== undefined) {

@@ -13,6 +13,10 @@ export class MongoTransactionRepository implements TransactionRepository {
     }
 
     async findById(id: string): Promise<Transaction | null> {
+        if (!Types.ObjectId.isValid(id)) {
+            return null;
+        }
+
         const doc = await TransactionModel.findById(id)
         if (!doc) return null;
         return TransactionMapper.toDomain(doc)
@@ -24,6 +28,10 @@ export class MongoTransactionRepository implements TransactionRepository {
     }
 
     async deleteById(id: string): Promise<void> {
+        if (!Types.ObjectId.isValid(id)) {
+            return;
+        }
+
         await TransactionModel.findByIdAndDelete(new Types.ObjectId(id))
     }
 

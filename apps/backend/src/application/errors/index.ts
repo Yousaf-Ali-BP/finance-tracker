@@ -1,4 +1,5 @@
 export * from "@/application/errors/AppError.js"
 export * from "@/application/errors/AuthErrors.js"
+export * from "@/application/errors/TransactionErrors.js"
 export * from "@/application/errors/ValidationError.js"
 export * from "@/application/errors/GenericErrors.js"
